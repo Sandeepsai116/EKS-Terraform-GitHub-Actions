@@ -24,14 +24,23 @@ provider "aws" {
 resource "aws_dynamodb_table" "lock_files" {
   name         = "Lock-Files"
   billing_mode = "PAY_PER_REQUEST"
+
+  # Define the attributes
   attribute {
     name = "lockID"
     type = "S"
   }
 
-  # Define the primary key schema
+  # Define the key schema using a single key
   key_schema {
     attribute_name = "lockID"
-    key_type       = "HASH"
+    key_type       = "HASH"  # Primary key
   }
+
+  # Optionally, add this to enable TTL (Time to Live) feature if desired
+  # ttl {
+  #   attribute_name = "ttl"  # Specify your TTL attribute
+  #   enabled        = true    # Enable TTL
+  # }
 }
+
