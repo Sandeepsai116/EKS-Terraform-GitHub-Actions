@@ -31,13 +31,18 @@ resource "aws_dynamodb_table" "lock_files" {
     type = "S"
   }
 
-  # Correctly define the key schema without array syntax
+  # Correctly define the key schema
   key_schema = [
     {
       attribute_name = "lockID"
       key_type       = "HASH"  # Primary key
     }
   ]
+
+  # Add the following for table settings
+  tags = {
+    Name = "Lock-Files"
+  }
 }
 
 
