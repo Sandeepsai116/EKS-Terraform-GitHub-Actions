@@ -31,19 +31,14 @@ resource "aws_dynamodb_table" "lock_files" {
     type = "S"
   }
 
-  # Define the key schema correctly using an array
+  # Correctly define the key schema without array syntax
   key_schema = [
     {
       attribute_name = "lockID"
       key_type       = "HASH"  # Primary key
     }
   ]
-
-  # Optionally, add this to enable TTL (Time to Live) feature if desired
-  # ttl {
-  #   attribute_name = "ttl"  # Specify your TTL attribute
-  #   enabled        = true    # Enable TTL
-  # }
 }
+
 
 
