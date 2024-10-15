@@ -1,43 +1,16 @@
 terraform {
-  required_version = "~> 1.9.3"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.49.0"
-    }
-  }
-
-  # Configure the S3 backend for state storage
   backend "s3" {
     bucket         = "my-ews-baket1-sandeepkonakanchi"
     region         = "us-east-1"
-    key            = "eks/terraform.tfstate"
+    key            = "End-to-End-Kubernetes-Three-Tier-DevSecOps-Project/Jenkins-Server-TF/terraform.tfstate"
+    dynamodb_table = "Lock-Files"
     encrypt        = true
-    dynamodb_table = aws_dynamodb_table.lock_files.name  # Use the resource name here
   }
-}
-
-provider "aws" {
-  region = var.aws-region
-}
-
-resource "aws_dynamodb_table" "lock_files" {
-  name         = "Lock-Files"
-  billing_mode = "PAY_PER_REQUEST"
-
-  # Define the attributes
-  attribute {
-    name = "lockID"
-    type = "S"  # S for String
-  }
-
-  # Correctly define the key schema
-  key_schema {
-    attribute_name = "lockID"
-    key_type       = "HASH"  # Primary key
-  }
-
-  tags = {
-    Name = "Lock-Files"
+  required_version = ">=0.13.0"
+  required_providers {
+    aws = {
+      version = ">= 2.7.0"
+      source  = "hashicorp/aws"
+    }
   }
 }
