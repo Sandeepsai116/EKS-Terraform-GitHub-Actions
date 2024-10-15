@@ -13,7 +13,7 @@ terraform {
     region         = "us-east-1"
     key            = "eks/terraform.tfstate"
     encrypt        = true
-    dynamodb_table = "Lock-Files"  # Enable state locking using the DynamoDB table
+    dynamodb_table = aws_dynamodb_table.lock_files.name  # Use the resource name here
   }
 }
 
@@ -28,22 +28,16 @@ resource "aws_dynamodb_table" "lock_files" {
   # Define the attributes
   attribute {
     name = "lockID"
-    type = "S"
+    type = "S"  # S for String
   }
 
   # Correctly define the key schema
-  key_schema = [
-    {
-      attribute_name = "lockID"
-      key_type       = "HASH"  # Primary key
-    }
-  ]
+  key_schema {
+    attribute_name = "lockID"
+    key_type       = "HASH"  # Primary key
+  }
 
-  # Add the following for table settings
   tags = {
     Name = "Lock-Files"
   }
 }
-
-
-
