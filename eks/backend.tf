@@ -10,11 +10,12 @@ terraform {
     bucket         = "my-ews-baket1-sandeepkonakanchi"
     region         = "us-east-1"
     key            = "eks/terraform.tfstate"
-    dynamodb_table = "Lock-Files"
+    dynamodb_table = "Lock-Files"  
     encrypt        = true
   }
 }
 
 provider "aws" {
-  region  = var.aws-region
+  region = var.aws-region
 }
+
