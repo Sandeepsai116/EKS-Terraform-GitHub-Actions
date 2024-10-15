@@ -6,13 +6,14 @@ terraform {
       version = "~> 5.49.0"
     }
   }
-  
+
+  # Configure the S3 backend for state storage
   backend "s3" {
     bucket         = "my-ews-baket1-sandeepkonakanchi"
     region         = "us-east-1"
     key            = "eks/terraform.tfstate"
     encrypt        = true
-    dynamodb_table = "Lock-Files"  # This is for state locking, not a backend block
+    dynamodb_table = "Lock-Files"  # Enable state locking using the DynamoDB table
   }
 }
 
@@ -26,5 +27,11 @@ resource "aws_dynamodb_table" "lock_files" {
   attribute {
     name = "lockID"
     type = "S"
+  }
+
+  # Define the primary key schema
+  key_schema {
+    attribute_name = "lockID"
+    key_type       = "HASH"
   }
 }
